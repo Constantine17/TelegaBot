@@ -9,6 +9,6 @@ namespace ServiceLayer.Services
 {
     public interface IRegistrationService
     {
-        IClient StartRegistration(IClientChat chat, string massage);
+        IClient Register(string massage);
     }
 }

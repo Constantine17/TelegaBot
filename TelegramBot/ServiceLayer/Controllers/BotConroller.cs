@@ -20,12 +20,9 @@ namespace ServiceLayer.Controllers
         private readonly ICommandService commandService;
         private IClientChat chat;
         private readonly IBotService botService;
-        private readonly IRegistrationService registrationService;
-        public BotConroller(IBotService botService, IRegistrationService registrationService)
+        public BotConroller(IBotService botService)
         {
-            this.registrationService = registrationService;
             this.botService = botService;
-
         }
 
         public void StartBot()
@@ -61,13 +58,13 @@ namespace ServiceLayer.Controllers
                         }
                     }
                 }
-                else if (chat.State != ClientState.Registered) registrationService.StartRegistration(chat, message.Text);
+                else if (chat.State != ClientState.Registered) new RegistrationService(botService, chat).Register(message.Text);
 
                 else botService.SayAsync(new UnknownСommandMassage(), chat);
             }
         }
 
-        private void TryGetCommand(string text, IClientChat chat)
+        private void TryGetCommand(string text, DataLayer.IClientChat chat)
         {
             switch (text)
             {
@@ -77,7 +74,7 @@ namespace ServiceLayer.Controllers
 
                 case "/registration":
                     chat.State = ClientState.NotRegistered;
-                    registrationService.StartRegistration(chat, text);
+                    new RegistrationService(botService, chat).Register(text);
                     break;
 
                 case "/info":
