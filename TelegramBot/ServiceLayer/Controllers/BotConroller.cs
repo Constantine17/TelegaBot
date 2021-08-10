@@ -1,6 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Client;
 using DataLayer.Client.Enams;
+using ServiceLayer.Extension;
 using ServiceLayer.Massages;
 using ServiceLayer.Services;
 using System;
@@ -80,6 +81,9 @@ namespace ServiceLayer.Controllers
                 case "/info":
                     if (chat.State == ClientState.Registered)
                     {
+                        var t = new List<IClient>();
+                        t.Add(chat.Client);
+                        t.AsQueryable().ToStringList().AsQueryable().WriteToFile("D:\\Test.csv");
                         foreach (var item in chat.Client)
                         {
                             botService.SayAsync(new Massage(item), chat);

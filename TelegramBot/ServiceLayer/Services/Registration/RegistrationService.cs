@@ -12,16 +12,12 @@ namespace ServiceLayer.Services
 {
     public class RegistrationService : IRegistrationService
     {
-        private readonly IBotService botService;
-
         private readonly IClientChat chat;
 
         private readonly Dictionary<ClientState, Action<string>> actionFromState;
         public RegistrationService(IBotService botService, IClientChat chat)
         {
             this.chat = chat;
-
-            this.botService = botService;
 
             actionFromState = new()
             {
