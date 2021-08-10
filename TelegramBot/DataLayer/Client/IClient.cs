@@ -10,8 +10,8 @@ namespace DataLayer
     {
         string FirstName { get; set; }
         string LastName { get; set; }
-        string Position { get; set; }
         string Company { get; set; }
+        string Position { get; set; }
         string MemberBefore { get; set; }
     }
 }

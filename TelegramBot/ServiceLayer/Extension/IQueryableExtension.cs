@@ -17,7 +17,9 @@ namespace ServiceLayer.Extension
         /// <param name="pathToFile">The path to the file where the collection should be written</param>
         public static void WriteToFile(this IQueryable collection, string pathToFile)
         {
-            using (var streamWriter = new StreamWriter(pathToFile))
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            using (var streamWriter = new StreamWriter(pathToFile, true, Encoding.GetEncoding(1251)))
             {
                 foreach (var entity in collection)
                 {
@@ -54,7 +56,7 @@ namespace ServiceLayer.Extension
                             continue;
                         }
 
-                        editedProperties += $"{value};\t";
+                        editedProperties += $"{value}; ";
                     }
                     catch (TargetParameterCountException)
                     {

@@ -28,7 +28,7 @@ namespace ServiceLayer
            await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text);
         }
 
-        public async void StartReceiving()
+        public void StartReceiving()
         {
             botClient.StartReceiving();
             botClient.OnMessage += BotClient_OnMessage;

@@ -13,12 +13,14 @@ namespace DataLayer
 
         public string Name => "Test";
 
-        public List<BotCommand> Commands;
+        public List<BotCommand> Commands = new() 
+        {
+            new BotCommand { Command = "/start", Description = "Починає роботу с ботом"},
+            new BotCommand { Command = "/info", Description = "Видає інформацію" },
+            new BotCommand { Command = "/registration", Description = "Починає регістрацію" },
+        };
         public Bot()
         {
-            Commands = new List<BotCommand>();
-            var t = new BotCommand() { Command = "/test", Description = "I test" };
-            Commands.Add(t);
         }
     }
 }

@@ -11,8 +11,8 @@ namespace DataLayer.Client
     {
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
-        public string Position { get; set; } = "";
         public string Company { get; set; } = "";
+        public string Position { get; set; } = "";
         public string MemberBefore { get; set; } = "";
 
         public IEnumerator<string> GetEnumerator()

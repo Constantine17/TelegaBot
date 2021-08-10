@@ -83,7 +83,21 @@ namespace ServiceLayer.Controllers
                     {
                         var t = new List<IClient>();
                         t.Add(chat.Client);
-                        t.AsQueryable().ToStringList().AsQueryable().WriteToFile("D:\\Test.csv");
+
+                        bool successful;
+
+                        var colonsName = new List<string> { "Им'я; Фамілія; Компанія; Посада; Чи були раніше?" };
+
+                        var newColection = new SortService().TrySelectionProperties(t.AsQueryable(), "FirstName, LastName, Company, Position, MemberBefore", out successful);
+                        
+                        if (successful)
+                        {
+                            colonsName.AsQueryable().WriteToFile("D:\\Test.csv");
+
+                            newColection.ToStringList().AsQueryable().WriteToFile("D:\\Test.csv");
+
+                        }
+
                         foreach (var item in chat.Client)
                         {
                             botService.SayAsync(new Massage(item), chat);

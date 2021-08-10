@@ -26,14 +26,14 @@ namespace ServiceLayer.Services.Registration
             this.modifiablePropertyName = modifiablePropertyName;
         }
 
-        public void ExecuteBehavior(string clientAnsver)
+        public void ExecuteBehavior(string clientAnswer)
         {
             communicationMethod.Invoke(massage, chat);
             chat.State = newState;
 
             if (modifiablePropertyName != null)
             {
-                chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, clientAnsver);
+                chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, clientAnswer);
             }
         }
     }
