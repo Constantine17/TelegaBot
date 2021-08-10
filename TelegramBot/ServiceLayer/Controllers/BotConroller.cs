@@ -1,6 +1,9 @@
 ﻿using DataLayer;
 using DataLayer.Client;
 using DataLayer.Client.Enams;
+using DataLayer.Repository;
+using DataLayer.Repository.Abstract;
+using DataLayer.Specifications;
 using ServiceLayer.Extension;
 using ServiceLayer.Massages;
 using ServiceLayer.Services;
@@ -18,11 +21,11 @@ namespace ServiceLayer.Controllers
 {
     public class BotConroller
     {
-        private readonly ICommandService commandService;
-        private IClientChat chat;
+        private IRepository<IClientChat> repository;
         private readonly IBotService botService;
         public BotConroller(IBotService botService)
         {
+            this.repository = new ClientChatRepository();
             this.botService = botService;
         }
 
@@ -36,9 +39,15 @@ namespace ServiceLayer.Controllers
         {
             var message = arg.Message;
 
-            if (chat == null)
+            var chat = repository.Get(new ConditionalSpecification(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
+
+            if (chat is null)
             {
-                chat = new ClientChat(message.Chat);
+                var newChat = new ClientChat(message.Chat);
+
+                repository.Create(newChat);
+
+                chat = repository.Get(new ConditionalSpecification(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
             }
 
             if (message != null)
@@ -81,23 +90,21 @@ namespace ServiceLayer.Controllers
                 case "/info":
                     if (chat.State == ClientState.Registered)
                     {
-                        var t = new List<IClient>();
-                        t.Add(chat.Client);
-
                         bool successful;
 
                         var colonsName = new List<string> { "Им'я; Фамілія; Компанія; Посада; Чи були раніше?" };
 
-                        var newColection = new SortService().TrySelectionProperties(t.AsQueryable(), "FirstName, LastName, Company, Position, MemberBefore", out successful);
-                        
-                        if (successful)
+                        var ClientColection = repository.Get(new SelectAllSpecification()).Select(s => s.Client);
+
+                        var newColection = new SortService().TrySelectionProperties(ClientColection.AsQueryable(), "FirstName, LastName", out successful);
+
+                        if (true)
                         {
                             colonsName.AsQueryable().WriteToFile("D:\\Test.csv");
 
                             newColection.ToStringList().AsQueryable().WriteToFile("D:\\Test.csv");
-
                         }
-
+                            
                         foreach (var item in chat.Client)
                         {
                             botService.SayAsync(new Massage(item), chat);
