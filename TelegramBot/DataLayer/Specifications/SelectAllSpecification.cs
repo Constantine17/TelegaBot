@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace DataLayer.Specifications
 {
-    public class SelectAllSpecification : ISpecification<IClientChat>
+    public class SelectAllSpecification<T> : ISpecification<T>
     {
-        public bool IsSatisfiedBy(IClientChat candidate)
+        public bool IsSatisfiedBy(T candidate)
         {
             return true;
         }

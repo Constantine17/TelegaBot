@@ -1,12 +1,9 @@
 ﻿using DataLayer;
-using DataLayer.Client;
 using DataLayer.Client.Enams;
-using ServiceLayer;
+using ServiceLayer.BotBehavior;
 using ServiceLayer.Massages;
-using ServiceLayer.Services.Registration;
 using System;
 using System.Collections.Generic;
-using System.Reflection;
 
 namespace ServiceLayer.Services
 {
@@ -29,7 +26,7 @@ namespace ServiceLayer.Services
                 { ClientState.GetMemberBefore, new RegistrationBehavior(chat, new Massage("Дякую, Вас зарегистрованно!"), ClientState.Registered, botService.SayAsync, "MemberBefore").ExecuteBehavior },
             };
         }
-        public IClient Register(string massage)
+        public IClient Register(string massage = null)
         {
             actionFromState[chat.State].Invoke(massage);
             return chat.Client;

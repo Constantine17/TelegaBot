@@ -4,29 +4,33 @@ using DataLayer.Client.Enams;
 using DataLayer.Repository;
 using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
-using ServiceLayer.Extension;
+using ServiceLayer.BotBehavior;
+using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Massages;
 using ServiceLayer.Services;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
 namespace ServiceLayer.Controllers
 {
     public class BotConroller
     {
-        private IRepository<IClientChat> repository;
+        private readonly IRepository<IClientChat> repository;
         private readonly IBotService botService;
+        private readonly Dictionary<string, IBehavior<IClientChat>> actionFromComand;
         public BotConroller(IBotService botService)
         {
             this.repository = new ClientChatRepository();
             this.botService = botService;
+
+            actionFromComand = new()
+            {
+                { "/info", new InfoBehavior(botService.SayAsync, repository) },
+                { "/start", new StartBehavior(botService.SayAsync, botService) },
+                { "/registration", new StartBehavior(botService.SayAsync, botService) },
+            };
         }
 
         public void StartBot()
@@ -39,16 +43,7 @@ namespace ServiceLayer.Controllers
         {
             var message = arg.Message;
 
-            var chat = repository.Get(new ConditionalSpecification(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
-
-            if (chat is null)
-            {
-                var newChat = new ClientChat(message.Chat);
-
-                repository.Create(newChat);
-
-                chat = repository.Get(new ConditionalSpecification(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
-            }
+            IClientChat chat = GetChat(message);
 
             if (message != null)
             {
@@ -74,51 +69,34 @@ namespace ServiceLayer.Controllers
             }
         }
 
-        private void TryGetCommand(string text, DataLayer.IClientChat chat)
+        private IClientChat GetChat(Telegram.Bot.Types.Message message)
         {
-            switch (text)
+            var chat = repository.Get(new ConditionalSpecification<IClientChat>(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
+
+            if (chat is null)
             {
-                case "/start":
-                    botService.SayAsync(new WelcomeMessage(), chat);
-                    break;
+                var newChat = new ClientChat(message.Chat);
 
-                case "/registration":
-                    chat.State = ClientState.NotRegistered;
-                    new RegistrationService(botService, chat).Register(text);
-                    break;
+                repository.Create(newChat);
 
-                case "/info":
-                    if (chat.State == ClientState.Registered)
-                    {
-                        bool successful;
+                chat = repository.Get(new ConditionalSpecification<IClientChat>(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
+            }
 
-                        var colonsName = new List<string> { "Им'я; Фамілія; Компанія; Посада; Чи були раніше?" };
+            return chat;
+        }
 
-                        var ClientColection = repository.Get(new SelectAllSpecification()).Select(s => s.Client);
+        private void TryGetCommand(string text, IClientChat chat)
+        {
+            IBehavior<IClientChat> behavior;
+            var isFound = actionFromComand.TryGetValue(text, out behavior);
 
-                        var newColection = new SortService().TrySelectionProperties(ClientColection.AsQueryable(), "FirstName, LastName", out successful);
-
-                        if (true)
-                        {
-                            colonsName.AsQueryable().WriteToFile("D:\\Test.csv");
-
-                            newColection.ToStringList().AsQueryable().WriteToFile("D:\\Test.csv");
-                        }
-                            
-                        foreach (var item in chat.Client)
-                        {
-                            botService.SayAsync(new Massage(item), chat);
-                        }
-                    }
-                    else
-                    {
-                        botService.SayAsync(new Massage("Ви ще не зарегіструвалися"), chat);
-                    }
-                    break;
-
-                default:
-                    botService.SayAsync(new UnknownСommandMassage(), chat);
-                    break;
+            if (isFound)
+            {
+                behavior.ExecuteBehavior(chat);
+            }
+            else
+            {
+                botService.SayAsync(new UnknownСommandMassage(), chat);
             }
         }
     }

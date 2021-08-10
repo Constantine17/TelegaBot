@@ -1,9 +1,9 @@
 ﻿using DataLayer;
 using DataLayer.Client.Enams;
-using ServiceLayer.Services.Registration.Abstract;
+using ServiceLayer.BotBehavior.Abstract;
 using System;
 
-namespace ServiceLayer.Services.Registration
+namespace ServiceLayer.BotBehavior
 {
     record RegistrationBehavior : IBehavior<string>
     {
