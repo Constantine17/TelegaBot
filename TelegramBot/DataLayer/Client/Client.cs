@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace DataLayer.Client
 {
@@ -16,6 +17,11 @@ namespace DataLayer.Client
         public string MemberBefore { get; set; } = "";
         public string Role { get; set; } = "";
         public string RigistrationDate { get; set; } = "";
+        public Chat Chat { get; set; }
+        public Client(Chat chat)
+        {
+            this.Chat = chat;
+        }
 
         public IEnumerator<string> GetEnumerator()
         {

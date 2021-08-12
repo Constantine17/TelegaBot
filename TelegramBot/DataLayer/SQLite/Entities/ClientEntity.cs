@@ -1,13 +1,17 @@
-﻿using System.ComponentModel;
+﻿using SQLite;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace DataLayer.SQLite.Entities
 {
     public class ClientEntity : INotifyPropertyChanged
     {
+        
+        private long id;
+        public long Id { get { return id; } set { id = value; OnPropertyChanged("Id"); } }
 
-        private string id;
-        public string Id { get { return id; } set { id = value; OnPropertyChanged("Id"); } }
+        private long chatId;
+        public long ChatId { get { return chatId; } set { chatId = value; OnPropertyChanged("ChatId"); } }
 
         private string firstName;
         public string FirstName { get { return firstName; } set { firstName = value; OnPropertyChanged("FirstName"); } }

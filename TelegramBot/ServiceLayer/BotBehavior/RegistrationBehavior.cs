@@ -1,5 +1,7 @@
 ﻿using DataLayer;
 using DataLayer.Client.Enams;
+using DataLayer.Mappers;
+using DataLayer.Repository;
 using ServiceLayer.BotBehavior.Abstract;
 using System;
 
@@ -34,6 +36,11 @@ namespace ServiceLayer.BotBehavior
             if (modifiablePropertyName != null)
             {
                 chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, clientAnswer);
+            }
+
+            if (chat.State == ClientState.GetMemberBefore)
+            {
+                new ClientEntityRepository().Create(chat.Client.ToEntity());
             }
         }
     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Telegram.Bot.Types;
 
 namespace DataLayer
 {
@@ -15,5 +16,6 @@ namespace DataLayer
         string MemberBefore { get; set; }
         string Role { get; set; }
         string RigistrationDate { get; set; }
+        Chat Chat { get; set; }
     }
 }

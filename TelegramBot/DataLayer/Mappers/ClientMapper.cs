@@ -13,6 +13,7 @@ namespace DataLayer.Mappers
         {
             return new ClientEntity
             {
+                Id = client.Chat.Id,
                 Company = client.Company,
                 FirstName = client.FirstName,
                 LastName = client.LastName,

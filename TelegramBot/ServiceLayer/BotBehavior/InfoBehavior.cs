@@ -26,7 +26,7 @@ namespace ServiceLayer.BotBehavior
         public void ExecuteBehavior(IClientChat parameter)
         {
             bool successful;
-
+            repository.Create(parameter);
             var colonsName = new List<string> { "Им'я; Фамілія; Компанія; Посада; Чи були раніше?" };
 
             var ClientColection = repository.Get(new SelectAllSpecification<IClientChat>()).Select(s => s.Client);

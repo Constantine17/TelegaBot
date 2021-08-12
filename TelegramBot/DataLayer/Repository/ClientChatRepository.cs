@@ -2,6 +2,7 @@
 using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
 using DataLayer.Specifications.Abstract;
+using DataLayer.SQLite.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,8 +17,6 @@ namespace DataLayer.Repository
 
         public void Create(IClientChat entity)
         {
-            Task.Factory.StartNew(()=> new ClientEntityRepository().Create(entity.Client.ToEntity()));
-
             if (colection.Contains(entity))
             {
                 colection.Remove(entity);

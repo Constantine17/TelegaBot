@@ -17,7 +17,7 @@ namespace DataLayer.Client
         public ClientChat(Chat chat)
         {
             Chat = chat;
-            Client = new Client();
+            Client = new Client(chat);
         }
     }
 }

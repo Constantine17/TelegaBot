@@ -72,7 +72,7 @@ namespace ServiceLayer.Controllers
         private IClientChat GetChat(Telegram.Bot.Types.Message message)
         {
             var chat = repository.Get(new ConditionalSpecification<IClientChat>(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
-
+            
             if (chat is null)
             {
                 var newChat = new ClientChat(message.Chat);
