@@ -1,4 +1,5 @@
-﻿using DataLayer.Repository.Abstract;
+﻿using DataLayer.Mappers;
+using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
 using DataLayer.Specifications.Abstract;
 using System;
@@ -15,17 +16,14 @@ namespace DataLayer.Repository
 
         public void Create(IClientChat entity)
         {
+            Task.Factory.StartNew(()=> new ClientEntityRepository().Create(entity.Client.ToEntity()));
+
             if (colection.Contains(entity))
             {
                 colection.Remove(entity);
             }
             colection.Add(entity);
 
-        }
-
-        public void Delete()
-        {
-            throw new NotImplementedException();
         }
 
         public IQueryable<IClientChat> Get(ISpecification<IClientChat> specification)

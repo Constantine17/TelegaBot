@@ -19,7 +19,7 @@ namespace TelegramBot
             var botClient = new TelegramBotClient(bot.Token);
             var botService = new BotService(botClient);
             new BotConroller(botService).StartBot();
-            Task.WaitAll(botClient.SetMyCommandsAsync(bot.Commands));
+            botClient.SetMyCommandsAsync(bot.Commands);
             Console.ReadLine();
         }
 

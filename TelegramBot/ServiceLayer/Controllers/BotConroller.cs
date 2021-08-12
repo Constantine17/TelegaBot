@@ -43,10 +43,10 @@ namespace ServiceLayer.Controllers
         {
             var message = arg.Message;
 
-            IClientChat chat = GetChat(message);
-
             if (message != null)
             {
+                IClientChat chat = GetChat(message);
+
                 if (message.Entities != null && message.Entities.Any())
                 {
                     foreach (var entity in message.Entities)

@@ -9,7 +9,7 @@ namespace DataLayer
 {
     public class Bot : IBot
     {
-        public string Token => "1908894830:AAG1h98cuLJEh1fgkh-jvXTtkF4aEPhxBFw";
+        public string Token => "1905117894:AAGaN1o3SdS9zSqYtmGEArbMZrm05lT9HNM";
 
         public string Name => "Test";
 

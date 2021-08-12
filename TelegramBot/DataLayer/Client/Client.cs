@@ -14,6 +14,8 @@ namespace DataLayer.Client
         public string Company { get; set; } = "";
         public string Position { get; set; } = "";
         public string MemberBefore { get; set; } = "";
+        public string Role { get; set; } = "";
+        public string RigistrationDate { get; set; } = "";
 
         public IEnumerator<string> GetEnumerator()
         {
@@ -22,6 +24,8 @@ namespace DataLayer.Client
             yield return Company;
             yield return Position;
             yield return MemberBefore;
+            yield return Role;
+            yield return RigistrationDate;
         }
 
         IEnumerator IEnumerable.GetEnumerator() => (IEnumerator)this;
