@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ServiceLayer.Services
+namespace ServiceLayer.Loggers
 {
-    public interface ICommandService
+    public interface ILogger
     {
-        bool TryGetCommand(string command);
+        void SetMassage(string massage)
     }
 }

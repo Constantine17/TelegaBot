@@ -1,10 +1,5 @@
-﻿using DataLayer;
+﻿using DataLayer.ClientModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Telegram.Bot;
 using Telegram.Bot.Args;
 
 namespace ServiceLayer
@@ -13,7 +8,7 @@ namespace ServiceLayer
     {
         public event Action<object, MessageEventArgs> OnMassage;
         void SayAsync(IMassage masage, IClientChat chat);
-
+        void SendFileAsync(string path, IClientChat chat);
         void StartReceiving();
 
         void StopReceiving();

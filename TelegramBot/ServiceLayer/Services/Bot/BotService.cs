@@ -1,14 +1,9 @@
-﻿using DataLayer;
+﻿using DataLayer.ClientModels;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using System.IO;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
-using Telegram.Bot.Types.Enums;
+using Telegram.Bot.Types.InputFiles;
 
 namespace ServiceLayer
 {
@@ -25,7 +20,16 @@ namespace ServiceLayer
 
         public async void SayAsync(IMassage masage, IClientChat chat)
         {
-           await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text);
+            await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text);
+        }
+
+        public async void SendFileAsync(string path, IClientChat chat)
+        {
+            using (var resource = File.OpenRead(path))
+            {
+                await botClient.SendDocumentAsync(chat.Chat.Id, new InputOnlineFile(resource, "Table.csv"));
+            }
+            
         }
 
         public void StartReceiving()

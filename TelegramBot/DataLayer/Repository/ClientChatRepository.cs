@@ -1,13 +1,8 @@
-﻿using DataLayer.Mappers;
+﻿using DataLayer.ClientModels;
 using DataLayer.Repository.Abstract;
-using DataLayer.Specifications;
 using DataLayer.Specifications.Abstract;
-using DataLayer.SQLite.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Repository
 {
@@ -22,17 +17,16 @@ namespace DataLayer.Repository
                 colection.Remove(entity);
             }
             colection.Add(entity);
-
         }
 
         public IQueryable<IClientChat> Get(ISpecification<IClientChat> specification)
         {
-            return colection.Where(s => specification.IsSatisfiedBy(s)).AsQueryable();
+            return colection.Where(specification.IsSatisfiedBy).AsQueryable();
         }
 
         public void Delete(ISpecification<IClientChat> specification)
         {
-            colection.ToList().RemoveAll(s => specification.IsSatisfiedBy(s));
+            colection.ToList().RemoveAll(specification.IsSatisfiedBy);
         }
     }
 }

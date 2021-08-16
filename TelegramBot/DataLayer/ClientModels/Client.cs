@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
-namespace DataLayer.Client
+namespace DataLayer.ClientModels
 {
     public class Client : IClient
     {

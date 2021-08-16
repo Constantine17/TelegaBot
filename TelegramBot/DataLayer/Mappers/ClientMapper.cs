@@ -1,9 +1,6 @@
-﻿using DataLayer.SQLite.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLayer.ClientModels;
+using DataLayer.SQLite.Entities;
+using Telegram.Bot.Types;
 
 namespace DataLayer.Mappers
 {
@@ -14,6 +11,7 @@ namespace DataLayer.Mappers
             return new ClientEntity
             {
                 Id = client.Chat.Id,
+                ChatId = client.Chat.Id,
                 Company = client.Company,
                 FirstName = client.FirstName,
                 LastName = client.LastName,
@@ -21,6 +19,19 @@ namespace DataLayer.Mappers
                 MemberBefore = client.MemberBefore,
                 Role = client.Role,
                 RigistrationDate = client.RigistrationDate
+            };
+        }
+        public static IClient ToClient(this ClientEntity clientEntity, Chat chat)
+        {
+            return new Client(chat)
+            {
+                Company = clientEntity.Company,
+                FirstName = clientEntity.FirstName,
+                LastName = clientEntity.LastName,
+                Position = clientEntity.Position,
+                MemberBefore = clientEntity.MemberBefore,
+                Role = clientEntity.Role,
+                RigistrationDate = clientEntity.RigistrationDate
             };
         }
     }

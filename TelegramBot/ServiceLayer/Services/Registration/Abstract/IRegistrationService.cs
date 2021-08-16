@@ -1,14 +1,9 @@
-﻿using DataLayer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLayer.ClientModels;
 
 namespace ServiceLayer.Services
 {
     public interface IRegistrationService
     {
-        IClient Register(string massage);
+        IClient Register();
     }
 }

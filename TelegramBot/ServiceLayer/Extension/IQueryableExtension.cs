@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ServiceLayer.Extension
@@ -18,20 +19,28 @@ namespace ServiceLayer.Extension
         public static void WriteToFile(this IQueryable collection, string pathToFile)
         {
             Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
-            using (var streamWriter = new StreamWriter(pathToFile, true, Encoding.GetEncoding(1251)))
+            try
             {
-                foreach (var entity in collection)
+                using (var streamWriter = new StreamWriter(pathToFile, true, Encoding.GetEncoding(1251)))
                 {
-                    var editedProperties = entity.ToString().Trim(new char[] { '{', '}' });
+                    foreach (var entity in collection)
+                    {
+                        var editedProperties = entity.ToString().Trim(new char[] { '{', '}' });
 
-                    streamWriter.WriteLine(editedProperties);
-                    streamWriter.Flush();
+                        streamWriter.WriteLine(editedProperties);
+                        streamWriter.Flush();
+                    }
                 }
             }
+            catch (Exception)
+            {
+                Thread.Sleep(1000);
+                WriteToFile(collection, pathToFile);
+            }
+            
         }
 
-        static public List<string> ToStringList(this IQueryable collection)
+        static public IQueryable<string> ToStringColection(this IQueryable collection)
         {
             var result = new List<string>();
 
@@ -65,7 +74,7 @@ namespace ServiceLayer.Extension
                 }
                 result.Add(editedProperties);
             }
-            return result;
+            return result.AsQueryable();
         }
     }
 }

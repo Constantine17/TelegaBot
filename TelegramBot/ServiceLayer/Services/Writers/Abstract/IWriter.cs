@@ -8,6 +8,6 @@ namespace ServiceLayer.Services.Writers.Abstract
 {
     public interface IWriter<in T>
     {
-        public void Write(T entity);
+        public void Write(T entity, string adress);
     }
 }

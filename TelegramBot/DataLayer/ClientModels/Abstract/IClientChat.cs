@@ -1,16 +1,13 @@
-﻿using DataLayer.Client.Enams;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DataLayer.ClientModels.Enams;
 using Telegram.Bot.Types;
 
-namespace DataLayer
+namespace DataLayer.ClientModels
 {
     public interface IClientChat
     {
         Chat Chat { get; set; }
+
+        Message LastMessage { get; set; }
 
         ClientState State { get; set; }
 

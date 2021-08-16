@@ -1,14 +1,14 @@
-﻿using DataLayer;
-using DataLayer.Client.Enams;
-using DataLayer.Mappers;
-using DataLayer.Repository;
+﻿using DataLayer.ClientModels;
+using DataLayer.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
 using System;
 
 namespace ServiceLayer.BotBehavior
 {
-    record RegistrationBehavior : IBehavior<string>
+    record RegistrationBehavior : IBehavior<IClientChat>
     {
+        public IBehavior<IClientChat> NextBehavior { get; }
+
         private readonly IClientChat chat;
 
         private readonly IMassage massage;
@@ -19,29 +19,26 @@ namespace ServiceLayer.BotBehavior
 
         private readonly string modifiablePropertyName;
 
-        public RegistrationBehavior(IClientChat chat, IMassage massage, ClientState newState, Action<IMassage, IClientChat> communicationMethod, String modifiablePropertyName = null)
+        public RegistrationBehavior(IClientChat chat, IMassage massage, ClientState newState, Action<IMassage, IClientChat> communicationMethod, string modifiablePropertyName = null, IBehavior<IClientChat> nextBehavior = null)
         {
             this.chat = chat;
             this.massage = massage;
             this.newState = newState;
             this.communicationMethod = communicationMethod;
             this.modifiablePropertyName = modifiablePropertyName;
+            this.NextBehavior = nextBehavior;
         }
 
-        public void ExecuteBehavior(string clientAnswer)
+        public void ExecuteBehavior(IClientChat ClientChat)
         {
             communicationMethod.Invoke(massage, chat);
             chat.State = newState;
-
             if (modifiablePropertyName != null)
             {
-                chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, clientAnswer);
+                chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, ClientChat.LastMessage.Text);
             }
 
-            if (chat.State == ClientState.GetMemberBefore)
-            {
-                new ClientEntityRepository().Create(chat.Client.ToEntity());
-            }
+            NextBehavior?.ExecuteBehavior(ClientChat);
         }
     }
 }

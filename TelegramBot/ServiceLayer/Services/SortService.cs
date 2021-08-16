@@ -11,7 +11,6 @@ namespace ServiceLayer.Services
             try
             {
                 isSuccessfully = true;
-
                 return colection.Select($"new({request})");
             }
 
