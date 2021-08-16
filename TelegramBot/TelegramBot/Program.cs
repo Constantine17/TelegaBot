@@ -8,6 +8,5 @@ namespace TelegramBot
         {
             new MBABot().Start();
         }
-
     }
 }

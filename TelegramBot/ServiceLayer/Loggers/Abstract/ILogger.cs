@@ -8,6 +8,6 @@ namespace ServiceLayer.Loggers
 {
     public interface ILogger
     {
-        void SetMassage(string massage)
+        void SetMassage(string massage);
     }
 }
