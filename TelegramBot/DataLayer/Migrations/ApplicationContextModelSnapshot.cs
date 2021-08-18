@@ -17,11 +17,8 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.SQLite.Entities.ClientEntity", b =>
                 {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("INTEGER");
-
                     b.Property<long>("ChatId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Company")
@@ -45,9 +42,43 @@ namespace DataLayer.Migrations
                     b.Property<string>("Role")
                         .HasColumnType("TEXT");
 
-                    b.HasKey("Id");
+                    b.HasKey("ChatId");
 
                     b.ToTable("ClientEntities");
+                });
+
+            modelBuilder.Entity("DataLayer.SQLite.Entities.ClientWithEventsEntity", b =>
+                {
+                    b.Property<long>("EventId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<long>("ClientId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("EventId");
+
+                    b.ToTable("ClientWithEventsEntities");
+                });
+
+            modelBuilder.Entity("DataLayer.SQLite.Entities.EventEntity", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("EventName")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("RigistrationDate")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("StartDate")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EventEntities");
                 });
 #pragma warning restore 612, 618
         }

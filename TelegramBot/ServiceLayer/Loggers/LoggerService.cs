@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Loggers
 {
-    public class ConsolLogger : ILogger
+    public static class LoggerService
     {
-        public void SetMassage(string massage)
+        public static void SetMassage(string massage, ILogger logger)
         {
-            Console.WriteLine(massage);
+            logger.SetMassage(massage);
         }
 
     }

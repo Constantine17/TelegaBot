@@ -1,16 +1,14 @@
-﻿using SQLite;
-using System.ComponentModel;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace DataLayer.SQLite.Entities
 {
     public class ClientEntity : INotifyPropertyChanged
     {
-        
-        private long id;
-        public long Id { get { return id; } set { id = value; OnPropertyChanged("Id"); } }
 
         private long chatId;
+        [Key]
         public long ChatId { get { return chatId; } set { chatId = value; OnPropertyChanged("ChatId"); } }
 
         private string firstName;
@@ -27,9 +25,6 @@ namespace DataLayer.SQLite.Entities
 
         public string memberBefore;
         public string MemberBefore { get { return memberBefore; } set { memberBefore = value; OnPropertyChanged("MemberBefore"); } }
-
-        public string role;
-        public string Role { get { return role; } set { role = value; OnPropertyChanged("Role"); } }
 
         public string rigistrationDate;
         public string RigistrationDate { get { return rigistrationDate; } set { rigistrationDate = value; OnPropertyChanged("RigistrationDate"); } }

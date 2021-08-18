@@ -1,7 +1,6 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Sqlite;
-using DataLayer.SQLite.Entities;
+﻿using DataLayer.SQLite.Entities;
 using Microsoft.EntityFrameworkCore;
+using System;
 
 namespace SQLiteApp
 {
@@ -10,14 +9,17 @@ namespace SQLiteApp
         public string DbPath = string.Empty;
         public ApplicationContext() : base()
         {
-            var folder = Environment.SpecialFolder.LocalApplicationData;
-            var path = Environment.GetFolderPath(folder);
-            DbPath = $"{path}{System.IO.Path.DirectorySeparatorChar}MBA_Bot.db";
+            DbPath = $"./MBA_Bot.db";
         }
+
         public DbSet<ClientEntity> ClientEntities { get; set; }
         public DbSet<EventEntity> EventEntities { get; set; }
+        public DbSet<ClientWithEventsEntity> ClientWithEventsEntities { get; set; }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder options)
-           => options.UseSqlite($"Data Source={DbPath}");
+        protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<ClientWithEventsEntity>().HasKey(u => u.EventId);
+        }
     }
 }
