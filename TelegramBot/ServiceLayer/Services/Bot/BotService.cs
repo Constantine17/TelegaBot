@@ -4,6 +4,7 @@ using System.IO;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.InputFiles;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer
 {
@@ -18,9 +19,9 @@ namespace ServiceLayer
             this.botClient = botClient;
         }
 
-        public async void SayAsync(IMassage masage, IClientChat chat)
+        public async void SayAsync(IMassage masage, IClientChat chat, IReplyMarkup buttons = null)
         {
-            await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text);
+            await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text, replyMarkup: buttons);
         }
 
         public async void SendFileAsync(string path, IClientChat chat)
@@ -31,6 +32,7 @@ namespace ServiceLayer
             }
             
         }
+
 
         public void StartReceiving()
         {

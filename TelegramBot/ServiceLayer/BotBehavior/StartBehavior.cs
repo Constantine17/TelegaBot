@@ -3,6 +3,7 @@ using DataLayer.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Services;
 using System;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer.BotBehavior
 {
@@ -10,11 +11,11 @@ namespace ServiceLayer.BotBehavior
     {
         public IBehavior<IClientChat> NextBehavior { get; }
 
-        private readonly Action<IMassage, IClientChat> communicationMethod;
+        private readonly Action<IMassage, IClientChat, IReplyMarkup> communicationMethod;
 
         private readonly IBotService botService;
 
-        public StartBehavior(Action<IMassage, IClientChat> communicationMethod, IBotService botService, IBehavior<IClientChat> nextBehavior = null)
+        public StartBehavior(Action<IMassage, IClientChat, IReplyMarkup> communicationMethod, IBotService botService, IBehavior<IClientChat> nextBehavior = null)
         {
             this.communicationMethod = communicationMethod;
             this.botService = botService;
@@ -23,7 +24,7 @@ namespace ServiceLayer.BotBehavior
 
         public void ExecuteBehavior(IClientChat clientChat)
         {
-            communicationMethod.Invoke(new WelcomeMessage(), clientChat);
+            communicationMethod.Invoke(new WelcomeMessage(), clientChat, null);
 
             clientChat.State = ClientState.NotRegistered;
 

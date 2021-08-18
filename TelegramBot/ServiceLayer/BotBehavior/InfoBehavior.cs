@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer.BotBehavior
 {
@@ -19,11 +20,11 @@ namespace ServiceLayer.BotBehavior
     {
         public IBehavior<IClientChat> NextBehavior { get; }
 
-        private readonly Action<IMassage, IClientChat> communicationMethod;
+        private readonly Action<IMassage, IClientChat, IReplyMarkup> communicationMethod;
 
         private readonly IRepository<ClientEntity> repository;
 
-        public InfoBehavior(Action<IMassage, IClientChat> communicationMethod, IRepository<ClientEntity> repository, IBehavior<IClientChat> nextBehavior = null)
+        public InfoBehavior(Action<IMassage, IClientChat, IReplyMarkup> communicationMethod, IRepository<ClientEntity> repository, IBehavior<IClientChat> nextBehavior = null)
         {
             this.communicationMethod = communicationMethod;
             this.repository = repository;
@@ -45,11 +46,11 @@ namespace ServiceLayer.BotBehavior
             {
                 if (prop.IsDefault())
                 {
-                    communicationMethod.Invoke(new Massage("Не заповнив"), clientChat);
+                    communicationMethod.Invoke(new Massage("Не заповнив"), clientChat, null);
                 }
                 else
                 {
-                    communicationMethod.Invoke(new Massage(prop), clientChat);
+                    communicationMethod.Invoke(new Massage(prop), clientChat, null);
                 }
             }
 

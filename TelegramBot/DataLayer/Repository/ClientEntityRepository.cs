@@ -2,18 +2,18 @@
 using DataLayer.Specifications.Abstract;
 using DataLayer.SQLite.Entities;
 using SQLiteApp;
+using System;
 using System.Data.SQLite;
+using System.IO;
 using System.Linq;
 
 namespace DataLayer.Repository
 {
     public class ClientEntityRepository : IRepository<ClientEntity>
     {
-        private ApplicationContext db = new ApplicationContext(new SQLiteConnection() { ConnectionString = @"Data Source =C:\Users\Mortem\Desktop\Bot\TelegramBot\\DataLayer\\SQLite\\MBA_Bot.db" });
+        private ApplicationContext db = new ApplicationContext();
         public void Create(ClientEntity entity)
         {
-            db.Database.ExecuteSqlCommand("CREATE TABLE IF NOT EXISTS 'ClientEntities' ('Id' INTEGER NOT NULL PRIMARY KEY, 'ChatId','FirstName' TEXT, 'LastName' TEXT,  'Company' TEXT, 'Position' TEXT, 'MemberBefore' TEXT, 'Role' TEXT, 'RigistrationDate' TEXT)");
-
             db.ClientEntities.Add(entity);
 
             db.SaveChanges();

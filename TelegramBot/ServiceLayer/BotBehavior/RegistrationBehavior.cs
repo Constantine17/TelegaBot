@@ -2,6 +2,7 @@
 using DataLayer.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
 using System;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer.BotBehavior
 {
@@ -15,11 +16,11 @@ namespace ServiceLayer.BotBehavior
 
         private readonly ClientState newState;
 
-        private readonly Action<IMassage, IClientChat> communicationMethod;
+        private readonly Action<IMassage, IClientChat, IReplyMarkup> communicationMethod;
 
         private readonly string modifiablePropertyName;
 
-        public RegistrationBehavior(IClientChat chat, IMassage massage, ClientState newState, Action<IMassage, IClientChat> communicationMethod, string modifiablePropertyName = null, IBehavior<IClientChat> nextBehavior = null)
+        public RegistrationBehavior(IClientChat chat, IMassage massage, ClientState newState, Action<IMassage, IClientChat, IReplyMarkup> communicationMethod, string modifiablePropertyName = null, IBehavior<IClientChat> nextBehavior = null)
         {
             this.chat = chat;
             this.massage = massage;
@@ -31,7 +32,7 @@ namespace ServiceLayer.BotBehavior
 
         public void ExecuteBehavior(IClientChat ClientChat)
         {
-            communicationMethod.Invoke(massage, chat);
+            communicationMethod.Invoke(massage, chat, null);
             chat.State = newState;
             if (modifiablePropertyName != null)
             {
