@@ -2,11 +2,7 @@
 using DataLayer.Specifications.Abstract;
 using DataLayer.SQLite.Entities;
 using SQLiteApp;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Repository
 {

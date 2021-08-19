@@ -1,8 +1,7 @@
-﻿using DataLayer.ClientModels;
-using DataLayer.Mappers;
+﻿using DataLayer.Mappers;
 using DataLayer.Repository.Abstract;
-using DataLayer.Specifications;
 using DataLayer.SQLite.Entities;
+using DataLayer.Users.ClientModels;
 using ServiceLayer.BotBehavior.Abstract;
 
 namespace ServiceLayer.BotBehavior

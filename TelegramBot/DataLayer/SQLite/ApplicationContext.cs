@@ -15,6 +15,7 @@ namespace SQLiteApp
         public DbSet<ClientEntity> ClientEntities { get; set; }
         public DbSet<EventEntity> EventEntities { get; set; }
         public DbSet<ClientWithEventsEntity> ClientWithEventsEntities { get; set; }
+        public DbSet<AdminEntity> AdminEntities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");
         protected override void OnModelCreating(ModelBuilder modelBuilder)

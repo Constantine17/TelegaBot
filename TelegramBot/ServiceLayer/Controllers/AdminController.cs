@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Controllers
 {
-    public interface IBotConroller
+    public class AdminController
     {
         
     }

@@ -1,5 +1,5 @@
-﻿using DataLayer.ClientModels;
-using DataLayer.ClientModels.Enams;
+﻿using DataLayer.Users.ClientModels;
+using DataLayer.Users.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
 using System;
 using Telegram.Bot.Types.ReplyMarkups;

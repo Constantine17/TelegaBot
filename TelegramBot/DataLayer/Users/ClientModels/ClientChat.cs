@@ -1,7 +1,6 @@
-﻿using DataLayer.ClientModels.Enams;
-using Telegram.Bot.Types;
+﻿using Telegram.Bot.Types;
 
-namespace DataLayer.ClientModels
+namespace DataLayer.Users.ClientModels
 {
     public class ClientChat : IClientChat
     {

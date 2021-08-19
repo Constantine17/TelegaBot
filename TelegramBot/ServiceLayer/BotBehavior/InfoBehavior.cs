@@ -3,6 +3,7 @@ using DataLayer.Mappers;
 using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
 using DataLayer.SQLite.Entities;
+using DataLayer.Users.ClientModels;
 using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Extension;
 using ServiceLayer.Massages;

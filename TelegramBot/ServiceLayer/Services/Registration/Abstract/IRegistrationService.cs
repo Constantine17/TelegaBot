@@ -1,4 +1,4 @@
-﻿using DataLayer.ClientModels;
+﻿using DataLayer.Users.ClientModels;
 
 namespace ServiceLayer.Services
 {

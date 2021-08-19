@@ -1,6 +1,6 @@
-﻿using DataLayer.ClientModels;
-using DataLayer.ClientModels.Enams;
-using DataLayer.Repository;
+﻿using DataLayer.Repository;
+using DataLayer.Users.ClientModels;
+using DataLayer.Users.ClientModels.Enams;
 using ServiceLayer.BotBehavior;
 using ServiceLayer.Massages;
 using System;

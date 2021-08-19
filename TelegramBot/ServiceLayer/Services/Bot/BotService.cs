@@ -1,4 +1,4 @@
-﻿using DataLayer.ClientModels;
+﻿using DataLayer.Users.ClientModels;
 using System;
 using System.IO;
 using Telegram.Bot;
@@ -30,9 +30,8 @@ namespace ServiceLayer
             {
                 await botClient.SendDocumentAsync(chat.Chat.Id, new InputOnlineFile(resource, "Table.csv"));
             }
-            
-        }
 
+        }
 
         public void StartReceiving()
         {

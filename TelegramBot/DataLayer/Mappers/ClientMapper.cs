@@ -1,5 +1,5 @@
-﻿using DataLayer.ClientModels;
-using DataLayer.SQLite.Entities;
+﻿using DataLayer.SQLite.Entities;
+using DataLayer.Users.ClientModels;
 using Telegram.Bot.Types;
 
 namespace DataLayer.Mappers
@@ -16,7 +16,6 @@ namespace DataLayer.Mappers
                 LastName = client.LastName,
                 Position = client.Position,
                 MemberBefore = client.MemberBefore,
-                Role = client.Role,
                 RigistrationDate = client.RigistrationDate
             };
         }
@@ -29,7 +28,6 @@ namespace DataLayer.Mappers
                 LastName = clientEntity.LastName,
                 Position = clientEntity.Position,
                 MemberBefore = clientEntity.MemberBefore,
-                Role = clientEntity.Role,
                 RigistrationDate = clientEntity.RigistrationDate
             };
         }

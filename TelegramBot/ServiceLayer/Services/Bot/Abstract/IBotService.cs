@@ -1,4 +1,4 @@
-﻿using DataLayer.ClientModels;
+﻿using DataLayer.Users.ClientModels;
 using System;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;

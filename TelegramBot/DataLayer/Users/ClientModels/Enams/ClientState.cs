@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataLayer.ClientModels.Enams
+namespace DataLayer.Users.ClientModels.Enams
 {
     public enum ClientState
     {

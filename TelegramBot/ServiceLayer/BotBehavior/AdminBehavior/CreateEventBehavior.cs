@@ -17,7 +17,6 @@ namespace ServiceLayer.BotBehavior.AdminBehavior
 
         public void ExecuteBehavior(string parameter)
         {
-            repository
         }
     }
 }

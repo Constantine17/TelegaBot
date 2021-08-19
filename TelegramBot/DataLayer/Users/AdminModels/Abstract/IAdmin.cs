@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot.Types;
 
-namespace DataLayer.AdminModels.Abstract
+namespace DataLayer.Users.AdminModels.Abstract
 {
     public interface IAdmin
     {

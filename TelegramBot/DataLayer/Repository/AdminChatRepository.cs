@@ -1,16 +1,16 @@
 ﻿using DataLayer.Repository.Abstract;
 using DataLayer.Specifications.Abstract;
-using DataLayer.Users.ClientModels;
+using DataLayer.Users.AdminModels.Abstract;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace DataLayer.Repository
 {
-    public class ClientChatRepository : IRepository<IClientChat>
+    public class AdminChatRepository : IRepository<IAdminChat>
     {
-        private List<IClientChat> colection { get; set; } = new();
+        private List<IAdminChat> colection { get; set; } = new();
 
-        public void Create(IClientChat entity)
+        public void Create(IAdminChat entity)
         {
             if (colection.Contains(entity))
             {
@@ -19,14 +19,15 @@ namespace DataLayer.Repository
             colection.Add(entity);
         }
 
-        public IQueryable<IClientChat> Get(ISpecification<IClientChat> specification)
+        public IQueryable<IAdminChat> Get(ISpecification<IAdminChat> specification)
         {
             return colection.Where(specification.IsSatisfiedBy).AsQueryable();
         }
 
-        public void Delete(ISpecification<IClientChat> specification)
+        public void Delete(ISpecification<IAdminChat> specification)
         {
             colection.ToList().RemoveAll(specification.IsSatisfiedBy);
         }
+
     }
 }

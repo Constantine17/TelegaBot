@@ -1,14 +1,10 @@
-﻿using DataLayer.ClientModels;
+﻿using DataLayer.Users.ClientModels;
 using ServiceLayer.BotBehavior.Abstract;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ServiceLayer.BotBehavior
 {
-    public class SendTableBehavior: IBehavior<IClientChat>
+    public class SendTableBehavior : IBehavior<IClientChat>
     {
         public IBehavior<IClientChat> NextBehavior { get; }
 

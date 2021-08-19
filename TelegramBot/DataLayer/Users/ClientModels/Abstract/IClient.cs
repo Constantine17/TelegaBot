@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Telegram.Bot.Types;
 
-namespace DataLayer.ClientModels
+namespace DataLayer.Users.ClientModels
 {
     public interface IClient : IEnumerable<string>
     {

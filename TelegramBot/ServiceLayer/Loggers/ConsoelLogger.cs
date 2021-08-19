@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.Loggers
 {
-    public class ConsolLogger : ILogger
+    public class ConsoelLogger : ILogger
     {
         public void SetMassage(string massage)
         {

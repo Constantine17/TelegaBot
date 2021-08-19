@@ -2,9 +2,6 @@
 using DataLayer.Specifications.Abstract;
 using DataLayer.SQLite.Entities;
 using SQLiteApp;
-using System;
-using System.Data.SQLite;
-using System.IO;
 using System.Linq;
 
 namespace DataLayer.Repository

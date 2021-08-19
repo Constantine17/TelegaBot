@@ -16,7 +16,7 @@ namespace ServiceLayer
         {
             try
             {
-                ConsolLogger.SetMassage("Bot is started");
+                LoggerService.SetMassage("Bot is started", new ConsoelLogger());
                 var bot = new Bot();
                 var botClient = new TelegramBotClient(bot.Token);
                 var botService = new BotService(botClient);
@@ -26,11 +26,11 @@ namespace ServiceLayer
             }
             catch (Exception e)
             {
-                ConsolLogger.SetMassage(e.Message);
+                LoggerService.SetMassage(e.Message, new ConsoelLogger());
             }
             finally
             {
-                ConsolLogger.SetMassage("Bot is stopped");
+                LoggerService.SetMassage("Bot is stopped", new ConsoelLogger());
             }
         }
     }
