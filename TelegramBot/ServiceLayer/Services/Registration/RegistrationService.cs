@@ -30,7 +30,7 @@ namespace ServiceLayer.Services
         public IClient Register()
         {
             actionFromState[chat.State].Invoke(chat);
-            return chat.Client;
+            return chat.User;
         }
     }
 }

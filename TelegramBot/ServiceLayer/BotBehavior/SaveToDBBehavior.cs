@@ -20,8 +20,8 @@ namespace ServiceLayer.BotBehavior
 
         public void ExecuteBehavior(IClientChat clientChat)
         {
-            clientChat.Client.RigistrationDate = clientChat.LastMessage.Date.ToString();
-            var clientEntity = clientChat.Client.ToEntity();
+            clientChat.User.RigistrationDate = clientChat.LastMessage.Date.ToString();
+            var clientEntity = clientChat.User.ToEntity();
 
             repository.Create(clientEntity);
 

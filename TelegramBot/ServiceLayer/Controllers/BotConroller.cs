@@ -7,6 +7,7 @@ using DataLayer.Users.ClientModels;
 using DataLayer.Users.ClientModels.Enams;
 using ServiceLayer.BotBehavior;
 using ServiceLayer.BotBehavior.Abstract;
+using ServiceLayer.Loggers;
 using ServiceLayer.Massages;
 using ServiceLayer.Services;
 using System.Collections.Generic;
@@ -26,7 +27,7 @@ namespace ServiceLayer.Controllers
             this.сlientRepository = new ClientChatRepository();
             this.botService = botService;
 
-            
+
         }
 
         public void StartBot()
@@ -41,46 +42,45 @@ namespace ServiceLayer.Controllers
 
             var chat = GetChat(message);
 
-            if (chat != null)
+            chat.LastMessage = message;
+
+            if (chat is IClientChat clientChat)
             {
-                chat.LastMessage = message;
-                GetCommand(message.Text, chat);
+                LoggerService.SetMassage($"User {chat.Chat.FirstName} is admin", new ConsoelLogger());
+                new ClientController(botService, clientChat).Start();
             }
+
+            else if (chat is IAdminChat adminChat)
+            {
+                LoggerService.SetMassage($"User {chat.Chat.FirstName} is client", new ConsoelLogger());
+                new AdminController(botService, adminChat).Start();
+            }
+
             else botService.SayAsync(new UnknownСommandMassage(), chat);
 
         }
 
         private IUserChat GetChat(Telegram.Bot.Types.Message message)
         {
-            var chat = сlientRepository.Get(new ConditionalSpecification<IClientChat>(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
+            IUserChat chat = сlientRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
 
             if (chat is null)
             {
-                var newChat = new ClientChat(message.Chat);
+                chat = adminRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
 
-                repository.Create(newChat);
+                if (chat is null)
+                {
+                    var newChat = new ClientChat(message.Chat);
 
-                chat = repository.Get(new ConditionalSpecification<IClientChat>(s => s.Chat.Id == message.Chat.Id)).FirstOrDefault();
+                    сlientRepository.Create(newChat);
+
+                    chat = сlientRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
+                }
             }
 
             return chat;
         }
 
-        private void GetCommand(string text, IClientChat chat)
-        {
-            var isFound = actionFromCommand.TryGetValue(text, out var behavior);
-
-            if (isFound)
-            {
-                behavior.ExecuteBehavior(chat);
-            }
-
-            else if (chat.State != ClientState.Registered) new RegistrationService(botService, chat).Register();
-
-            else
-            {
-                botService.SayAsync(new UnknownСommandMassage(), chat);
-            }
-        }
+        
     }
 }

@@ -1,16 +1,13 @@
-﻿using DataLayer.ClientModels.Enams;
+﻿using DataLayer.Users.Abstract;
+using DataLayer.Users.ClientModels.Enams;
 using Telegram.Bot.Types;
 
 namespace DataLayer.Users.ClientModels
 {
-    public interface IClientChat
+    public interface IClientChat : IUserChat
     {
-        Chat Chat { get; set; }
-
-        Message LastMessage { get; set; }
-
         ClientState State { get; set; }
 
-        IClient Client { get; set; }
+        new IClient User { get; set; }
     }
 }

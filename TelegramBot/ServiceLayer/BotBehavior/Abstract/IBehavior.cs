@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ServiceLayer.BotBehavior.Abstract
 {
-    public interface IBehavior<T>
+    public interface IBehavior<in T>
     {
         IBehavior<T> NextBehavior { get;}
         void ExecuteBehavior(T parameter);

@@ -1,4 +1,5 @@
-﻿using DataLayer.Users.AdminModels.Abstract;
+﻿using DataLayer.Users.Abstract;
+using DataLayer.Users.AdminModels.Abstract;
 using System.Collections.Generic;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -20,6 +21,7 @@ namespace DataLayer.Users.AdminModels
             }
             };
         }
-        public IAdmin Admin { get; set; }
+        public IAdmin User { get; set; }
+        IUser IUserChat.User { get => User; set => User = (IAdmin)value; }
     }
 }

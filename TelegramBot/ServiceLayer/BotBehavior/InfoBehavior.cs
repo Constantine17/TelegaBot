@@ -1,49 +1,47 @@
-﻿using DataLayer.ClientModels;
-using DataLayer.Mappers;
+﻿using DataLayer.Mappers;
 using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
 using DataLayer.SQLite.Entities;
-using DataLayer.Users.ClientModels;
+using DataLayer.Users.Abstract;
 using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Extension;
 using ServiceLayer.Massages;
 using ServiceLayer.Services;
 using ServiceLayer.Services.Writers;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer.BotBehavior
 {
-    public class InfoBehavior : IBehavior<IClientChat>
+    public class InfoBehavior : IBehavior<IUserChat>
     {
-        public IBehavior<IClientChat> NextBehavior { get; }
+        public IBehavior<IUserChat> NextBehavior { get; }
 
-        private readonly Action<IMassage, IClientChat, IReplyMarkup> communicationMethod;
+        private readonly Action<IMassage, IUserChat, IReplyMarkup> communicationMethod;
 
         private readonly IRepository<ClientEntity> repository;
 
-        public InfoBehavior(Action<IMassage, IClientChat, IReplyMarkup> communicationMethod, IRepository<ClientEntity> repository, IBehavior<IClientChat> nextBehavior = null)
+        public InfoBehavior(Action<IMassage, IUserChat, IReplyMarkup> communicationMethod, IRepository<ClientEntity> repository, IBehavior<IUserChat> nextBehavior = null)
         {
             this.communicationMethod = communicationMethod;
             this.repository = repository;
             this.NextBehavior = nextBehavior;
         }
 
-        public void ExecuteBehavior(IClientChat clientChat)
+        public void ExecuteBehavior(IUserChat clientChat)
         {
             bool successful;
 
             File.Delete(@".\ClientTable.csv");
 
             var ClientColection = repository.Get(new SelectAllSpecification<ClientEntity>()).Select(s => s.ToClient(clientChat.Chat)).ToList();
-            
+
             var newColection = new SortService().TrySelectionProperties(ClientColection.AsQueryable(), "FirstName, LastName, Company, Position, MemberBefore, RigistrationDate", out successful);
             new CSVWriter<IQueryable>().Write(newColection.ToStringColection(), @".\ClientTable.csv");
-            
-            foreach (var prop in clientChat.Client)
+
+            foreach (var prop in clientChat.User)
             {
                 if (prop.IsDefault())
                 {

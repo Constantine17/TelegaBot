@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using DataLayer.Users.Abstract;
 using Telegram.Bot.Types;
 
 namespace DataLayer.Users.ClientModels
 {
-    public interface IClient : IEnumerable<string>
+    public interface IClient : IUser
     {
         string FirstName { get; set; }
         string LastName { get; set; }

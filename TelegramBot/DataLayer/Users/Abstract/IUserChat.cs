@@ -7,5 +7,7 @@ namespace DataLayer.Users.Abstract
         Chat Chat { get; set; }
 
         Message LastMessage { get; set; }
+
+        IUser User { get; set; }
     }
 }

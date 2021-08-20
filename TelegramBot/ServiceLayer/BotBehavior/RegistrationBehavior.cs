@@ -36,7 +36,7 @@ namespace ServiceLayer.BotBehavior
             chat.State = newState;
             if (modifiablePropertyName != null)
             {
-                chat.Client.GetType().GetProperty(modifiablePropertyName).SetValue(chat.Client, ClientChat.LastMessage.Text);
+                chat.User.GetType().GetProperty(modifiablePropertyName).SetValue(chat.User, ClientChat.LastMessage.Text);
             }
 
             NextBehavior?.ExecuteBehavior(ClientChat);

@@ -1,4 +1,5 @@
-﻿using DataLayer.Users.ClientModels;
+﻿using DataLayer.Users.Abstract;
+using DataLayer.Users.ClientModels;
 using System;
 using System.IO;
 using Telegram.Bot;
@@ -19,12 +20,12 @@ namespace ServiceLayer
             this.botClient = botClient;
         }
 
-        public async void SayAsync(IMassage masage, IClientChat chat, IReplyMarkup buttons = null)
+        public async void SayAsync(IMassage masage, IUserChat chat, IReplyMarkup buttons = null)
         {
             await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text, replyMarkup: buttons);
         }
 
-        public async void SendFileAsync(string path, IClientChat chat)
+        public async void SendFileAsync(string path, IUserChat chat)
         {
             using (var resource = File.OpenRead(path))
             {

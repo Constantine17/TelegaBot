@@ -7,6 +7,6 @@ namespace DataLayer.Users.AdminModels.Abstract
     {
         IReplyMarkup Keyboard { get; }
 
-        IAdmin Admin { get; set; }
+        new IAdmin User { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using DataLayer.Users.ClientModels;
+﻿using DataLayer.Users.Abstract;
+using DataLayer.Users.ClientModels;
 using DataLayer.Users.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Services;
@@ -7,28 +8,28 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace ServiceLayer.BotBehavior
 {
-    public class StartBehavior : IBehavior<IClientChat>
+    public class StartBehavior : IBehavior<IUserChat>
     {
-        public IBehavior<IClientChat> NextBehavior { get; }
+        public IBehavior<IUserChat> NextBehavior { get; }
 
-        private readonly Action<IMassage, IClientChat, IReplyMarkup> communicationMethod;
+        private readonly Action<IMassage, IUserChat, IReplyMarkup> communicationMethod;
 
         private readonly IBotService botService;
 
-        public StartBehavior(Action<IMassage, IClientChat, IReplyMarkup> communicationMethod, IBotService botService, IBehavior<IClientChat> nextBehavior = null)
+        public StartBehavior(Action<IMassage, IUserChat, IReplyMarkup> communicationMethod, IBotService botService, IBehavior<IUserChat> nextBehavior = null)
         {
             this.communicationMethod = communicationMethod;
             this.botService = botService;
             this.NextBehavior = nextBehavior;
         }
 
-        public void ExecuteBehavior(IClientChat clientChat)
+        public void ExecuteBehavior(IUserChat clientChat)
         {
             communicationMethod.Invoke(new WelcomeMessage(), clientChat, null);
 
-            clientChat.State = ClientState.NotRegistered;
+            //clientChat.State = ClientState.NotRegistered;
 
-            new RegistrationService(botService, clientChat).Register();
+            //new RegistrationService(botService, clientChat).Register();
 
             NextBehavior?.ExecuteBehavior(clientChat);
         }
