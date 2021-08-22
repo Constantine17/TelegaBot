@@ -28,11 +28,11 @@ namespace SQLiteApp
         {
             DbPath = $"./MBA_Bot.db";
 
-            if (migrator is null)
-            {
-                var migrator = this.GetInfrastructure().GetService<IMigrator>();
-                migrator.Migrate("Initial");
-            }
+            //if (migrator is null)
+            //{
+            //    var migrator = this.GetInfrastructure().GetService<IMigrator>();
+            //    migrator.Migrate("Initial");
+            //}
         }
 
         public DbSet<ClientEntity> ClientEntities { get; set; }
@@ -41,9 +41,5 @@ namespace SQLiteApp
         public DbSet<AdminEntity> AdminEntities { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder options) => options.UseSqlite($"Data Source={DbPath}");
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<ClientWithEventsEntity>().HasKey(u => u.EventId);
-        }
     }
 }

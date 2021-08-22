@@ -22,5 +22,10 @@ namespace ServiceLayer.Services
             this.eventRepository = eventRepository;
             this.clientWithEventsRepository = clientWithEventsRepository;
         }
+
+        public void GetClient()
+        {
+
+        }
     }
 }

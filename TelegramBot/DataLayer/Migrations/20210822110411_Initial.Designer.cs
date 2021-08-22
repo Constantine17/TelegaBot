@@ -8,7 +8,7 @@ using SQLiteApp;
 namespace DataLayer.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20210821073153_Initial")]
+    [Migration("20210822110411_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -62,14 +62,17 @@ namespace DataLayer.Migrations
 
             modelBuilder.Entity("DataLayer.SQLite.Entities.ClientWithEventsEntity", b =>
                 {
-                    b.Property<long>("EventId")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
                     b.Property<long>("ClientId")
                         .HasColumnType("INTEGER");
 
-                    b.HasKey("EventId");
+                    b.Property<long>("EventId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
 
                     b.ToTable("ClientWithEventsEntities");
                 });

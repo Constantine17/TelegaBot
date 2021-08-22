@@ -8,6 +8,7 @@ namespace DataLayer.Users.AdminModels
     public class Admin : IAdmin
     {
         public string Nickname { get; set; }
+        public string ActionToken { get; set; }
         public Chat Chat { get; set; }
 
         public Admin(Chat chat)

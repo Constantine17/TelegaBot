@@ -41,13 +41,14 @@ namespace DataLayer.Migrations
                 name: "ClientWithEventsEntities",
                 columns: table => new
                 {
-                    EventId = table.Column<long>(type: "INTEGER", nullable: false)
+                    Id = table.Column<long>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    ClientId = table.Column<long>(type: "INTEGER", nullable: false)
+                    ClientId = table.Column<long>(type: "INTEGER", nullable: false),
+                    EventId = table.Column<long>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ClientWithEventsEntities", x => x.EventId);
+                    table.PrimaryKey("PK_ClientWithEventsEntities", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(

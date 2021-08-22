@@ -6,5 +6,6 @@ namespace DataLayer.Users.AdminModels.Abstract
     public interface IAdmin: IUser
     {
         string Nickname { get; set; }
+        string ActionToken { get; set; }
     }
 }

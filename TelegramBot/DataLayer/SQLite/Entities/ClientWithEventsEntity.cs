@@ -6,6 +6,10 @@ namespace DataLayer.SQLite.Entities
 {
     public class ClientWithEventsEntity : INotifyPropertyChanged
     {
+        private long id;
+        [Key]
+        public long Id { get { return id; } set { id = value; OnPropertyChanged("Id"); } }
+
         private long clientId;
         public long ClientId { get { return clientId; } set { clientId = value; OnPropertyChanged("ClientId"); } }
 

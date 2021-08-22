@@ -28,7 +28,7 @@ namespace ServiceLayer.Controllers
             {
                 { "/start", new StartBehavior(botService.SayAsync, botService, new ShowKeyboardBehavior(botService.SayAsync, adminChat)) },
                 { "Список участників", new InfoBehavior(botService.SayAsync, new ClientEntityRepository(), new SendTableBehavior(botService.SendFileAsync, @".\ClientTable.csv")) },
-                { "Додати зустріч", new StartBehavior(botService.SayAsync, botService) },
+                { "Додати зустріч", new CreateEventBehavior(botService.SayAsync, new EventEntityRepository()) },
             };
         }
 
@@ -39,19 +39,20 @@ namespace ServiceLayer.Controllers
 
         private void GetCommand(string text)
         {
-            if (!text.IsDefault())
-            {
-                var isFound = actionFromCommand.TryGetValue(text, out var behavior);
+            if (text.IsDefault())
+                return;
 
-                if (isFound)
-                {
-                    behavior.ExecuteBehavior(adminChat);
-                }
-                else
-                {
-                    botService.SayAsync(new UnknownСommandMassage(), adminChat);
-                }
+            var isFound = actionFromCommand.TryGetValue(text, out var behavior);
+
+            if (isFound)
+            {
+                behavior.ExecuteBehavior(adminChat);
             }
+            else
+            {
+                botService.SayAsync(new UnknownСommandMassage(), adminChat);
+            }
+
         }
     }
 }
