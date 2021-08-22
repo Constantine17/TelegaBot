@@ -1,7 +1,11 @@
-﻿using DataLayer.Repository;
+﻿using DataLayer.Mappers;
+using DataLayer.Repository;
 using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
+using DataLayer.SQLite.Entities;
+using DataLayer.SQLite.Entities.Abstract;
 using DataLayer.Users.Abstract;
+using DataLayer.Users.AdminModels;
 using DataLayer.Users.AdminModels.Abstract;
 using DataLayer.Users.ClientModels;
 using DataLayer.Users.ClientModels.Enams;
@@ -18,13 +22,13 @@ namespace ServiceLayer.Controllers
 {
     public class BotConroller
     {
-        private readonly IRepository<IClientChat> сlientRepository;
-        private readonly IRepository<IAdminChat> adminRepository;
+        private readonly IRepository<ClientEntity> сlientRepository;
+        private readonly IRepository<AdminEntity> adminRepository;
         private readonly IBotService botService;
         public BotConroller(IBotService botService)
         {
-            this.adminRepository = new AdminChatRepository();
-            this.сlientRepository = new ClientChatRepository();
+            this.adminRepository = new AdminEntityRepository();
+            this.сlientRepository = new ClientEntityRepository();
             this.botService = botService;
 
 
@@ -40,29 +44,34 @@ namespace ServiceLayer.Controllers
         {
             var message = arg.Message;
 
-            var chat = GetChat(message);
+            var user = GetUser(message);
 
-            chat.LastMessage = message;
-
-            if (chat is IClientChat clientChat)
+            if (user is ClientEntity clientEntity)
             {
-                LoggerService.SetMassage($"User {chat.Chat.FirstName} is admin", new ConsoelLogger());
+                var clientChat = new ClientChat(clientEntity.ToModel(message.Chat))
+                {
+                    LastMessage = message
+                };
+
+                LoggerService.SetMassage($"User {user.FirstName} is client", new ConsoelLogger());
                 new ClientController(botService, clientChat).Start();
             }
-
-            else if (chat is IAdminChat adminChat)
+            else if (user is AdminEntity adminEntity)
             {
-                LoggerService.SetMassage($"User {chat.Chat.FirstName} is client", new ConsoelLogger());
+                var adminChat = new AdminChat(adminEntity.ToModel(message.Chat))
+                {
+                    LastMessage = message
+                };
+
+                LoggerService.SetMassage($"User {user.FirstName} is admin", new ConsoelLogger());
                 new AdminController(botService, adminChat).Start();
             }
-
-            else botService.SayAsync(new UnknownСommandMassage(), chat);
-
+            else LoggerService.SetMassage("Couldn't define the role of the chat", new ConsoelLogger());
         }
 
-        private IUserChat GetChat(Telegram.Bot.Types.Message message)
+        private IUserEntity GetUser(Telegram.Bot.Types.Message message)
         {
-            IUserChat chat = сlientRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
+            IUserEntity chat = сlientRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
 
             if (chat is null)
             {
@@ -70,9 +79,9 @@ namespace ServiceLayer.Controllers
 
                 if (chat is null)
                 {
-                    var newChat = new ClientChat(message.Chat);
+                    var newChat = new ClientChat(new Client(message.Chat));
 
-                    сlientRepository.Create(newChat);
+                    сlientRepository.Create(newChat.User.ToEntity());
 
                     chat = сlientRepository.Get(new GetByIdSpecification(message)).FirstOrDefault();
                 }
@@ -81,6 +90,6 @@ namespace ServiceLayer.Controllers
             return chat;
         }
 
-        
+
     }
 }

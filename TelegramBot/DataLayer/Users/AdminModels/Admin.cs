@@ -10,6 +10,11 @@ namespace DataLayer.Users.AdminModels
         public string Nickname { get; set; }
         public Chat Chat { get; set; }
 
+        public Admin(Chat chat)
+        {
+            Chat = chat;
+        }
+
         public IEnumerator<string> GetEnumerator()
         {
             yield return Nickname;

@@ -10,17 +10,17 @@ namespace DataLayer.Users.ClientModels
 {
     public class Client : IClient
     {
+        public string RigistrationDate { get; set; } = "";
         public string FirstName { get; set; } = "";
         public string LastName { get; set; } = "";
         public string Company { get; set; } = "";
         public string Position { get; set; } = "";
         public string MemberBefore { get; set; } = "";
-        public string Role { get; set; } = "";
-        public string RigistrationDate { get; set; } = "";
-        public Chat Chat { get; set; }
+        public Chat Chat {get; set; }
+
         public Client(Chat chat)
         {
-            this.Chat = chat;
+            Chat = chat;
         }
 
         public IEnumerator<string> GetEnumerator()
@@ -30,7 +30,6 @@ namespace DataLayer.Users.ClientModels
             yield return Company;
             yield return Position;
             yield return MemberBefore;
-            yield return Role;
             yield return RigistrationDate;
         }
 

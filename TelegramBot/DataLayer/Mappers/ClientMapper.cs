@@ -19,7 +19,7 @@ namespace DataLayer.Mappers
                 RigistrationDate = client.RigistrationDate
             };
         }
-        public static IClient ToClient(this ClientEntity clientEntity, Chat chat)
+        public static IClient ToModel(this ClientEntity clientEntity, Chat chat)
         {
             return new Client(chat)
             {

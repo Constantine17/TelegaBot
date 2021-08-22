@@ -7,10 +7,10 @@ using System.Linq;
 
 namespace DataLayer.Repository
 {
-    public class ClientEntityRepository : IRepository<ClientEntity>
+    public class AdminEntityRepository : IRepository<AdminEntity>
     {
         private ApplicationContext db = ApplicationContext.Instance;
-        public void Create(ClientEntity entity)
+        public void Create(AdminEntity entity)
         {
             var oldEntity = Get(new GetByIdSpecification(entity.ChatId));
 
@@ -20,19 +20,19 @@ namespace DataLayer.Repository
                 db.SaveChanges();
             }
 
-            db.ClientEntities.Add(entity);
+            db.AdminEntities.Add(entity);
             db.SaveChanges();
         }
 
-        public void Delete(ISpecification<ClientEntity> specification)
+        public void Delete(ISpecification<AdminEntity> specification)
         {
-            db.ClientEntities.RemoveRange(Get(specification));
+            db.AdminEntities.RemoveRange(Get(specification));
             db.SaveChanges();
         }
 
-        public IQueryable<ClientEntity> Get(ISpecification<ClientEntity> specification)
+        public IQueryable<AdminEntity> Get(ISpecification<AdminEntity> specification)
         {
-            return db.ClientEntities.Where(specification.IsSatisfiedBy).AsQueryable();
+            return db.AdminEntities.Where(specification.IsSatisfiedBy).AsQueryable();
         }
     }
 }

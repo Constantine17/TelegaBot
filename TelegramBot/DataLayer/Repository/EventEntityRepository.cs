@@ -1,4 +1,5 @@
 ﻿using DataLayer.Repository.Abstract;
+using DataLayer.Specifications;
 using DataLayer.Specifications.Abstract;
 using DataLayer.SQLite.Entities;
 using SQLiteApp;
@@ -8,11 +9,18 @@ namespace DataLayer.Repository
 {
     public class EventEntityRepository : IRepository<EventEntity>
     {
-        private ApplicationContext db = new ApplicationContext();
+        private ApplicationContext db = ApplicationContext.Instance;
         public void Create(EventEntity entity)
         {
-            db.EventEntities.Add(entity);
+            var oldEntity = Get(new ConditionalSpecification<EventEntity>(s => s.Id == entity.Id));
 
+            if (oldEntity != null)
+            {
+                Delete(new ConditionalSpecification<EventEntity>(s => s.Id == entity.Id));
+                db.SaveChanges();
+            }
+
+            db.EventEntities.Add(entity);
             db.SaveChanges();
         }
 

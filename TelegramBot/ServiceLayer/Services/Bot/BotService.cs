@@ -22,14 +22,14 @@ namespace ServiceLayer
 
         public async void SayAsync(IMassage masage, IUserChat chat, IReplyMarkup buttons = null)
         {
-            await botClient.SendTextMessageAsync(chat.Chat.Id, masage.Text, replyMarkup: buttons);
+            await botClient.SendTextMessageAsync(chat.User.Chat.Id, masage.Text, replyMarkup: buttons);
         }
 
         public async void SendFileAsync(string path, IUserChat chat)
         {
             using (var resource = File.OpenRead(path))
             {
-                await botClient.SendDocumentAsync(chat.Chat.Id, new InputOnlineFile(resource, "Table.csv"));
+                await botClient.SendDocumentAsync(chat.User.Chat.Id, new InputOnlineFile(resource, "Table.csv"));
             }
 
         }

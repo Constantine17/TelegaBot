@@ -1,10 +1,11 @@
-﻿using System.ComponentModel;
+﻿using DataLayer.SQLite.Entities.Abstract;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 
 namespace DataLayer.SQLite.Entities
 {
-    public class ClientEntity : INotifyPropertyChanged
+    public class ClientEntity : INotifyPropertyChanged, IUserEntity
     {
 
         private long chatId;

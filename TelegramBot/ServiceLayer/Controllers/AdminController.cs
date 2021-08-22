@@ -3,6 +3,8 @@ using DataLayer.Users.AdminModels.Abstract;
 using DataLayer.Users.ClientModels;
 using ServiceLayer.BotBehavior;
 using ServiceLayer.BotBehavior.Abstract;
+using ServiceLayer.BotBehavior.AdminBehavior;
+using ServiceLayer.Extension;
 using ServiceLayer.Massages;
 using System;
 using System.Collections.Generic;
@@ -24,9 +26,9 @@ namespace ServiceLayer.Controllers
             this.botService = botService;
             actionFromCommand = new()
             {
-                { "/info", new InfoBehavior(botService.SayAsync, new ClientEntityRepository(), new SendTableBehavior(botService.SendFileAsync, @".\ClientTable.csv")) },
-                { "/start", new StartBehavior(botService.SayAsync, botService) },
-                { "/registration", new StartBehavior(botService.SayAsync, botService) },
+                { "/start", new StartBehavior(botService.SayAsync, botService, new ShowKeyboardBehavior(botService.SayAsync, adminChat)) },
+                { "Список участників", new InfoBehavior(botService.SayAsync, new ClientEntityRepository(), new SendTableBehavior(botService.SendFileAsync, @".\ClientTable.csv")) },
+                { "Додати зустріч", new StartBehavior(botService.SayAsync, botService) },
             };
         }
 
@@ -37,15 +39,18 @@ namespace ServiceLayer.Controllers
 
         private void GetCommand(string text)
         {
-            var isFound = actionFromCommand.TryGetValue(text, out var behavior);
+            if (!text.IsDefault())
+            {
+                var isFound = actionFromCommand.TryGetValue(text, out var behavior);
 
-            if (isFound)
-            {
-                behavior.ExecuteBehavior(adminChat);
-            }
-            else
-            {
-                botService.SayAsync(new UnknownСommandMassage(), adminChat);
+                if (isFound)
+                {
+                    behavior.ExecuteBehavior(adminChat);
+                }
+                else
+                {
+                    botService.SayAsync(new UnknownСommandMassage(), adminChat);
+                }
             }
         }
     }

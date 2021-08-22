@@ -1,4 +1,5 @@
 ﻿using DataLayer.Users.Abstract;
+using DataLayer.Users.AdminModels.Abstract;
 using DataLayer.Users.ClientModels;
 using DataLayer.Users.ClientModels.Enams;
 using ServiceLayer.BotBehavior.Abstract;
@@ -26,10 +27,6 @@ namespace ServiceLayer.BotBehavior
         public void ExecuteBehavior(IUserChat clientChat)
         {
             communicationMethod.Invoke(new WelcomeMessage(), clientChat, null);
-
-            //clientChat.State = ClientState.NotRegistered;
-
-            //new RegistrationService(botService, clientChat).Register();
 
             NextBehavior?.ExecuteBehavior(clientChat);
         }

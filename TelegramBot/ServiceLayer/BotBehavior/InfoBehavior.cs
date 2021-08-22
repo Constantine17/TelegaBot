@@ -3,6 +3,8 @@ using DataLayer.Repository.Abstract;
 using DataLayer.Specifications;
 using DataLayer.SQLite.Entities;
 using DataLayer.Users.Abstract;
+using DataLayer.Users.AdminModels.Abstract;
+using DataLayer.Users.ClientModels;
 using ServiceLayer.BotBehavior.Abstract;
 using ServiceLayer.Extension;
 using ServiceLayer.Massages;
@@ -35,21 +37,23 @@ namespace ServiceLayer.BotBehavior
             bool successful;
 
             File.Delete(@".\ClientTable.csv");
+            if (clientChat is IAdminChat adminChat)
+            {
+                var ClientColection = repository.Get(new SelectAllSpecification<ClientEntity>()).Select(s => s.ToModel(clientChat.User.Chat)).ToList();
 
-            var ClientColection = repository.Get(new SelectAllSpecification<ClientEntity>()).Select(s => s.ToClient(clientChat.Chat)).ToList();
-
-            var newColection = new SortService().TrySelectionProperties(ClientColection.AsQueryable(), "FirstName, LastName, Company, Position, MemberBefore, RigistrationDate", out successful);
-            new CSVWriter<IQueryable>().Write(newColection.ToStringColection(), @".\ClientTable.csv");
+                var newColection = new SortService().TrySelectionProperties(ClientColection.AsQueryable(), "FirstName, LastName, Company, Position, MemberBefore, RigistrationDate", out successful);
+                new CSVWriter<IQueryable>().Write(newColection.ToStringColection(), @".\ClientTable.csv");
+            }
 
             foreach (var prop in clientChat.User)
             {
                 if (prop.IsDefault())
                 {
-                    communicationMethod.Invoke(new Massage("Не заповнив"), clientChat, null);
+                    communicationMethod(new Massage("Не заповнив"), clientChat, null);
                 }
                 else
                 {
-                    communicationMethod.Invoke(new Massage(prop), clientChat, null);
+                    communicationMethod(new Massage(prop), clientChat, null);
                 }
             }
 

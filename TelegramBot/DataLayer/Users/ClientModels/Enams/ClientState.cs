@@ -13,7 +13,6 @@ namespace DataLayer.Users.ClientModels.Enams
         GetLastName,
         GetCompany,
         GetPosition,
-        GetStatus,
         GetMemberBefore,
         Registered
     }

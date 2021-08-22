@@ -2,10 +2,23 @@
 
 namespace DataLayer.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "AdminEntities",
+                columns: table => new
+                {
+                    ChatId = table.Column<long>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AdminEntities", x => x.ChatId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "ClientEntities",
                 columns: table => new
@@ -17,7 +30,6 @@ namespace DataLayer.Migrations
                     Company = table.Column<string>(type: "TEXT", nullable: true),
                     Position = table.Column<string>(type: "TEXT", nullable: true),
                     MemberBefore = table.Column<string>(type: "TEXT", nullable: true),
-                    Role = table.Column<string>(type: "TEXT", nullable: true),
                     RigistrationDate = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -56,6 +68,9 @@ namespace DataLayer.Migrations
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AdminEntities");
+
             migrationBuilder.DropTable(
                 name: "ClientEntities");
 

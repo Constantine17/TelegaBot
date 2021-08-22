@@ -15,6 +15,20 @@ namespace DataLayer.Migrations
             modelBuilder
                 .HasAnnotation("ProductVersion", "5.0.9");
 
+            modelBuilder.Entity("DataLayer.SQLite.Entities.AdminEntity", b =>
+                {
+                    b.Property<long>("ChatId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("ChatId");
+
+                    b.ToTable("AdminEntities");
+                });
+
             modelBuilder.Entity("DataLayer.SQLite.Entities.ClientEntity", b =>
                 {
                     b.Property<long>("ChatId")
@@ -37,9 +51,6 @@ namespace DataLayer.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("RigistrationDate")
-                        .HasColumnType("TEXT");
-
-                    b.Property<string>("Role")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ChatId");

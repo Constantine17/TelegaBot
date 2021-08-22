@@ -1,21 +1,25 @@
 ﻿using DataLayer.Specifications.Abstract;
-using DataLayer.Users.Abstract;
-using System;
+using DataLayer.SQLite.Entities.Abstract;
 using Telegram.Bot.Types;
 
 namespace DataLayer.Specifications
 {
-    public class GetByIdSpecification : ISpecification<IUserChat>
+    public class GetByIdSpecification : ISpecification<IUserEntity>
     {
-        private readonly Message massage;
+        private readonly long id;
 
         public GetByIdSpecification(Message massage)
         {
-            this.massage = massage;
+            this.id = massage.Chat.Id;
         }
-        public bool IsSatisfiedBy(IUserChat candidate)
+
+        public GetByIdSpecification(long id)
         {
-           return candidate.Chat.Id == massage.Chat.Id;
+            this.id = id;
+        }
+        public bool IsSatisfiedBy(IUserEntity candidate)
+        {
+            return candidate.ChatId == id;
         }
     }
 }

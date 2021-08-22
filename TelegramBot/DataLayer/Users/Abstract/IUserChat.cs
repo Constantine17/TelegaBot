@@ -4,8 +4,6 @@ namespace DataLayer.Users.Abstract
 {
     public interface IUserChat
     {
-        Chat Chat { get; set; }
-
         Message LastMessage { get; set; }
 
         IUser User { get; set; }

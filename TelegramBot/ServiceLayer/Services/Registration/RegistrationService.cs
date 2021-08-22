@@ -19,12 +19,37 @@ namespace ServiceLayer.Services
 
             actionFromState = new()
             {
-                { ClientState.NotRegistered, new RegistrationBehavior(chat, new Massage("Скажіть Ваше ім'я"), ClientState.GetFirstName, botService.SayAsync).ExecuteBehavior },
-                { ClientState.GetFirstName, new RegistrationBehavior(chat, new Massage("Скажіть Вашу фамілію"), ClientState.GetLastName, botService.SayAsync, "FirstName").ExecuteBehavior },
-                { ClientState.GetLastName, new RegistrationBehavior(chat, new Massage("Скажіть Вашу компанію"), ClientState.GetCompany, botService.SayAsync, "LastName").ExecuteBehavior },
-                { ClientState.GetCompany, new RegistrationBehavior(chat, new Massage("Скажіть Вашу позицію"), ClientState.GetPosition, botService.SayAsync, "Company").ExecuteBehavior },
-                { ClientState.GetPosition, new RegistrationBehavior(chat, new Massage("Чи були Ви у нас раніше?"), ClientState.GetMemberBefore, botService.SayAsync, "Position").ExecuteBehavior },
-                { ClientState.GetMemberBefore, new RegistrationBehavior(chat, new Massage("Дякую, Вас зарегистрованно!"), ClientState.Registered, botService.SayAsync, "MemberBefore", new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior },
+                {
+                    ClientState.NotRegistered,
+                    new RegistrationBehavior(chat, new Massage("Скажіть Ваше ім'я"), ClientState.GetFirstName, botService.SayAsync,
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior
+                },
+                {
+                    ClientState.GetFirstName,
+                    new RegistrationBehavior(chat, new Massage("Скажіть Вашу фамілію"), ClientState.GetLastName, botService.SayAsync, "FirstName",
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior
+                },
+                {
+                    ClientState.GetLastName,
+                    new RegistrationBehavior(chat, new Massage("Скажіть Вашу компанію"), ClientState.GetCompany, botService.SayAsync, "LastName",
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior
+                },
+                {
+                    ClientState.GetCompany,
+                    new RegistrationBehavior(chat, new Massage("Скажіть Вашу позицію"), ClientState.GetPosition, botService.SayAsync, "Company",
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior
+                },
+                {
+                    ClientState.GetPosition,
+                    new RegistrationBehavior(chat, new Massage("Чи були Ви у нас раніше?"), ClientState.GetMemberBefore, botService.SayAsync, "Position",
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository())).ExecuteBehavior
+                },
+                {
+                    ClientState.GetMemberBefore,
+                    new RegistrationBehavior(chat, new Massage("Дякую, Вас зарегистрованно!"), ClientState.Registered, botService.SayAsync, "MemberBefore",
+                    nextBehavior: new SaveToDBBehavior(new ClientEntityRepository(),
+                    nextBehavior: new SendMailBehavior())).ExecuteBehavior
+                },
             };
         }
         public IClient Register()

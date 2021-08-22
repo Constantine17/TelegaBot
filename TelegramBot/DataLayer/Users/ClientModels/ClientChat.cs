@@ -6,16 +6,14 @@ namespace DataLayer.Users.ClientModels
 {
     public class ClientChat : IClientChat
     {
-        public Chat Chat { get; set; }
         public ClientState State { get; set; }
         public IClient User { get; set; }
         public Message LastMessage { get; set; }
         IUser IUserChat.User { get => User; set => User = (IClient)value; }
 
-        public ClientChat(Chat chat)
+        public ClientChat(IClient user)
         {
-            Chat = chat;
-            User = new Client(chat);
+            User = user;
         }
     }
 }
